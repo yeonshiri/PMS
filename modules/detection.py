@@ -1,5 +1,5 @@
 # modules/detection.py
-def yolo_to_deepsort(results, classes_of_interest=(0, 80, 39)):
+def yolo_to_deepsort(results, classes_of_interest=(0, 2, 1)):
     """
     Ultralytics YOLO 결과 → [[x1, y1, x2, y2, conf, label_str], ...]
     - classes_of_interest: 추적할 클래스 ID 튜플
@@ -23,8 +23,8 @@ def yolo_to_deepsort(results, classes_of_interest=(0, 80, 39)):
         # 클래스 → 문자열
         label = (
             "person"  if cls_id == 0  else
-            "mat"     if cls_id == 80 else
-            "bottle"  if cls_id == 39 else
+            "mat"     if cls_id == 2 else
+            "bottle"  if cls_id == 1 else
             str(cls_id)
         )
 

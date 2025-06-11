@@ -12,7 +12,7 @@ import threading
 import queue
 from ultralytics import YOLO
 
-MODEL_PATH = "final.pt"
+MODEL_PATH = "asd.pt"
 VIDEO_PATH = "3.mp4"  # 웹캠 사용 시 0
 BUFFER_SIZE = 1
 
