@@ -1,6 +1,6 @@
 # modules/sort_tracker.py
 
-from modules.sort import Sort
+from modules.sort_jet import Sort
 import numpy as np
 
 # 개체별 트래커

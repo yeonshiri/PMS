@@ -37,11 +37,22 @@ def drawing(frame, persons, mats, bottles, states):
     # 3) 물병 ──────────────────────────────────────────
     bottle_states = states.get("bottle_states", {})
     for bid, bb in bottles:
-        x1,y1,x2,y2 = bb
+        x1, y1, x2, y2 = bb
         b_state = bottle_states.get(bid, {}).get("state", "no")
-        cv2.rectangle(frame, (x1,y1), (x2,y2), COLOR_BOTTLE, 2)
-        cv2.putText(frame, f"Btl {bid} : {b_state}", (x1, y2+16),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, COLOR_BOTTLE, 1)
+
+        # 상태에 따라 색상 지정
+        if b_state == "trash":
+            color = (0, 0, 255)       # 빨강
+        elif b_state == "picnic":
+            color = (255, 255, 0)     # 노랑
+        elif b_state == "pre":
+            color = (0, 128, 255)     # 주황
+        else:
+            color = COLOR_BOTTLE      # 기본 파랑
+
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(frame, f"Btl {bid} : {b_state}", (x1, y2 + 16),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1)
 
     # 4) 무단투기 알림 ────────────────────────────────
     if states.get("trash_detected", False):
@@ -85,7 +96,7 @@ def drawing(frame, persons, mats, bottles, states):
         text = f"[P{pid}] {ps['state']:<9} c={ps['count_time']:>2} a={ps['absent_time']:>2} s={sid}"
         color = (255,255,255)
         if ps['state'] == "finish":
-            color = (0,0,255)
+            color = (0,255,255)
         elif ps['state'] == "picnic":
             color = (0,255,255)
         cv2.putText(frame, text, (10, y), font, 0.5, color, 1)
@@ -97,10 +108,17 @@ def drawing(frame, persons, mats, bottles, states):
             continue
         sid = bottle_to_session.get(bid, "None")
         text = f"[B{bid}] {bs['state']:<9} c={bs['count_time']:>2} a={bs['absent_time']:>2} s={sid}"
-        color = (255,255,255)
-        if bs['state'] == "trash":
-            color = (0,0,255)
-        elif bs['state'] == "picnic":
-            color = (255,255,0)
+
+        state = bs['state']
+        if state == "trash":
+            color = (0, 0, 255)       # 빨강
+        elif state == "picnic":
+            color = (255, 255, 0)     # 노랑
+        elif state == "pre":
+            color = (0, 128, 255)     # 주황 (OpenCV는 BGR)
+        else:
+            color = (255, 255, 255)   # 흰색 (기본)
+
         cv2.putText(frame, text, (10, y), font, 0.5, color, 1)
         y += 20
+
