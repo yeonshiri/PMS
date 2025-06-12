@@ -13,7 +13,7 @@ import queue
 from ultralytics import YOLO
 
 MODEL_PATH = "asd.pt"
-VIDEO_PATH = "3.mp4"  # 웹캠 사용 시 0
+VIDEO_PATH = "6.mp4"  # 웹캠 사용 시 0
 BUFFER_SIZE = 1
 
 def yolo_worker(frame_q: "queue.Queue[tuple[cv2.Mat,float]]", result_dict: dict):
